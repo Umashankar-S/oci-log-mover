@@ -19,7 +19,7 @@ Source object:
 Destination object:
 `<dest_prefix>/2026/04/08/20260408T102655Z_20260408T102655Z.0.log.gz`
 
-## Authentication
+### Authentication
 
 This project uses **Instance Principal**:
 
@@ -27,12 +27,12 @@ This project uses **Instance Principal**:
 - No local `~/.oci/config` needed
 Ensure the node/instance running this code is in a Dynamic Group with policies that allow reading and managing object storage objects.
 
-## Required environment variables
+### Required environment variables
 
 - `SOURCE_BUCKET`
 - `DEST_BUCKET`
 
-## Optional environment variables
+### Optional environment variables
 
 - `SOURCE_PREFIX` (default: empty)
 - `DEST_ROOT_PREFIX` (default: `default_ns`)
@@ -45,7 +45,7 @@ Ensure the node/instance running this code is in a Dynamic Group with policies t
 - `PRESERVE_SOURCE_PREFIX` (`true`/`false`, default `true`)
 - `SOURCE_KEEP_OBJECT_NAME` (default `.keep`)
 
-## Run locally (on OCI Compute Instance with Instance Principal)
+## Run on OCI Compute Instance (with Instance Principal)
 
 ```bash
 pip install -r requirements.txt
@@ -81,12 +81,12 @@ Then apply:
 kubectl apply -f oci-oke/cronjob.yaml
 ```
 
- # IAM policy sketch
+ ### IAM policy sketch
 
 - `allow dynamic-group <dg-name> to read buckets in compartment <compartment-name>`
 - `allow dynamic-group <dg-name> to manage objects in compartment <compartment-name>`
 
-If source and destination buckets are in different compartments, add policy statements for both compartments.
+ If source and destination buckets are in different compartments, add policy statements for both compartments.
 
 
 
@@ -112,12 +112,14 @@ Set the Environment Variables OCI Console -> Developer Services -> Function -> A
  SOURCE_KEEP_OBJECT_NAME=".keep"
 ```
 
- # IAM policy sketch
+ ### IAM policy sketch
 
-   Dynamic Group 
+   #### Dynamic Group 
     ` ALL {resource.type = 'fnfunc', resource.compartment.id = '<compartment_ocid>'} `
 
    - ` allow dynamic-group <fn_dg> to read buckets in compartment <src_compartment> `
    - ` allow dynamic-group <fn_dg> to manage objects in compartment <src_compartment> `
    - ` allow dynamic-group <fn_dg> to read buckets in compartment <dst_compartment> `
    - ` allow dynamic-group <fn_dg> to manage objects in compartment <dst_compartment> `
+
+  If source and destination buckets are in different compartments, add policy statements for both compartments.
