@@ -81,7 +81,7 @@ Then apply:
 kubectl apply -f oci-oke/cronjob.yaml
 ```
 
-## IAM policy sketch
+ # IAM policy sketch
 
 - `allow dynamic-group <dg-name> to read buckets in compartment <compartment-name>`
 - `allow dynamic-group <dg-name> to manage objects in compartment <compartment-name>`
@@ -90,15 +90,16 @@ If source and destination buckets are in different compartments, add policy stat
 
 
 
-### OCI Fn 
+## OCI Fn 
 
-
+```bash
 fn init --runtime python  log_file_mover
 Copy the oci-function/log-file-mover/*.  <log-file-mover-fn>
 fn -v deploy --app <fn-app>
+```
 
 Set the Environment Variables OCI Console -> Developer Services -> Function -> Applications -> Configuration ( Manage Configutaion -> Add )
-
+```
  SOURCE_BUCKET=<src>
  DEST_BUCKET=<dst>
  SOURCE_PREFIX=<src_prefix>/ocid1.serviceconnector.oc1.iad..
@@ -109,4 +110,4 @@ Set the Environment Variables OCI Console -> Developer Services -> Function -> A
  MAX_OBJECTS_PER_RUN=25
  PRESERVE_SOURCE_PREFIX=true
  SOURCE_KEEP_OBJECT_NAME=".keep"
-
+```
