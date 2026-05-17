@@ -94,7 +94,7 @@ If source and destination buckets are in different compartments, add policy stat
 
 ```bash
 fn init --runtime python  log_file_mover
-Copy the oci-function/log-file-mover/*.  <log-file-mover-fn>
+Copy the oci-function/log-file-mover/*  <log-file-mover-fn>
 fn -v deploy --app <fn-app>
 ```
 
@@ -111,3 +111,13 @@ Set the Environment Variables OCI Console -> Developer Services -> Function -> A
  PRESERVE_SOURCE_PREFIX=true
  SOURCE_KEEP_OBJECT_NAME=".keep"
 ```
+
+ # IAM policy sketch
+
+   Dynamic Group 
+    ` ALL {resource.type = 'fnfunc', resource.compartment.id = '<compartment_ocid>'} `
+
+   - ` allow dynamic-group <fn_dg> to read buckets in compartment <src_compartment> `
+   - ` allow dynamic-group <fn_dg> to manage objects in compartment <src_compartment> `
+   - ` allow dynamic-group <fn_dg> to read buckets in compartment <dst_compartment> `
+   - ` allow dynamic-group <fn_dg> to manage objects in compartment <dst_compartment> `
