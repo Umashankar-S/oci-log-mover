@@ -3,7 +3,7 @@
 
 Moves log objects ( OKE Conatiner logs or any log objects)  from a source OCI Object Storage bucket path into a destination bucket path in `/YYYY/MM/DD/` structure.
 
-This  repo has python code base and can deployed  as below 3 options :
+This is a python code repo  and can be deployed with below  three practical deployment methods :
  1. As a cronjob on Compute VM  ( Code Path :  oci-compute)
  2. As an OCI Function  ( Code Path :  oci-function)
  3. As a Cronjob / Job container with OCI Kuberenetes Engine ( OKE)
