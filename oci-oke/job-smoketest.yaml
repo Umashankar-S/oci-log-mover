@@ -1,0 +1,41 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: oci-log-mover-smoketest
+spec:
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 600
+  template:
+    spec:
+      restartPolicy: Never
+      imagePullSecrets:
+      - name: us-ocirsecret 
+      containers:
+        - name: mover
+          image: <region>.ocir.io/<tenancy-namespace>/oci-log-mover:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SOURCE_BUCKET
+              value: "source-bucket-name"
+            - name: DEST_BUCKET
+              value: "destination-bucket-name"
+            - name: SOURCE_PREFIX
+              value: "default_ns/ocid1.serviceconnector.oc1.iad......"
+            - name: DEST_ROOT_PREFIX
+              value: "default_ns"
+            - name: DEST_REGION
+              value: "us-ashburn-1"
+            - name: DRY_RUN
+              value: "true"
+            - name: DELETE_SOURCE
+              value: "false"
+            - name: MAX_OBJECTS_PER_RUN
+              value: "100"
+            - name: VERIFY_RETRIES
+              value: "30"
+            - name: VERIFY_DELAY_SECONDS
+              value: "1.5"
+            - name: PRESERVE_SOURCE_PREFIX
+              value: "true"
+            - name: SOURCE_KEEP_OBJECT_NAME
+              value: ".keep"

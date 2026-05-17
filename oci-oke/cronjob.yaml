@@ -1,0 +1,47 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: oci-log-mover
+spec:
+  schedule: "*/5 * * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          restartPolicy: Never
+          imagePullSecrets:
+          - name: <ocir-imagepullsecret>
+          containers:
+            - name: mover
+              image: <region>.ocir.io/<tenancy-namespace>/oci-log-mover:latest
+              imagePullPolicy: IfNotPresent
+              env:
+              - name: SOURCE_BUCKET
+                value: "source-bucket-name"
+              - name: DEST_BUCKET
+                value: "destination-bucket-name"
+              - name: SOURCE_PREFIX
+                value: "default_ns/ocid1.serviceconnector.oc1.iad.."
+              - name: DEST_ROOT_PREFIX
+                value: "default_ns"
+              - name: DEST_REGION
+                value: "us-ashburn-1"
+              - name: DRY_RUN
+                value: "true"
+              - name: DELETE_SOURCE
+                value: "false"
+              - name: MAX_OBJECTS_PER_RUN
+                value: "100"
+              - name: VERIFY_RETRIES
+                value: "10"
+              - name: VERIFY_DELAY_SECONDS
+                value: "2"
+              - name: PRESERVE_SOURCE_PREFIX
+                value: "true"
+              - name: SOURCE_KEEP_OBJECT_NAME
+                value: ".keep"
+               
+           
